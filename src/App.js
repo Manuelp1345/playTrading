@@ -3,6 +3,10 @@ import { Box, Button, Typography } from "@mui/material";
 import ResponsiveAppBar from "./modules/header/nav";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { Instagram, Telegram, Twitter, YouTube } from "@mui/icons-material";
+import { DataContext } from "./modules/context/DataContext";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import CustomizedDialogs from "./modules/ModalAuth";
 
 const pagesFooter = [
   "INFORMACIÓN",
@@ -15,7 +19,7 @@ const pagesFooter = [
 function App() {
   return (
     <Box sx={{ overflow: "hidden" }}>
-      <ResponsiveAppBar></ResponsiveAppBar>
+      <ResponsiveAppBar />
       <Box
         sx={{
           backgroundImage: "url('img/1 Home Page.jpg')",
@@ -283,8 +287,28 @@ function App() {
           </Box>
         </Box>
       </Box>
+      <CustomizedDialogs />
     </Box>
   );
 }
 
 export default App;
+
+export const Loading = () => {
+  const { setUser } = useContext(DataContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setUser({
+      user: "manuel",
+      pass: "123",
+    });
+    navigate("/");
+  }, [setUser, navigate]);
+
+  return (
+    <>
+      <h1>Hola</h1>
+    </>
+  );
+};
