@@ -35,7 +35,7 @@ export default function ButtonDropDown({ content }) {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{ my: 2, color: "white", display: "block" }}
+        sx={{ my: 2, color: { xs: "black", md: "white" }, display: "block" }}
       >
         {content}
       </Button>

@@ -1,23 +1,10 @@
 import "./App.css";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import ResponsiveAppBar from "./modules/header/nav";
-import { useEffect, useState } from "react";
 import Footer from "./modules/Footer";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    window.addEventListener("load", (event) => {
-      console.log("page is fully loaded");
-      setLoading(!loading);
-    });
-  });
-
-  return loading ? (
-    <>
-      <Loading />
-    </>
-  ) : (
+  return (
     <Box sx={{ overflow: "hidden" }}>
       <ResponsiveAppBar />
       <Box

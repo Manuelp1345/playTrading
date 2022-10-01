@@ -104,11 +104,15 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page) =>
+                page === pages[1] || page === pages[0] ? (
+                  <ButtonDropDown content={page} />
+                ) : (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                )
+              )}
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
