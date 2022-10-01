@@ -1,9 +1,7 @@
 import "./App.css";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import ResponsiveAppBar from "./modules/header/nav";
-import { DataContext } from "./modules/context/DataContext";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Footer from "./modules/Footer";
 
 function App() {
