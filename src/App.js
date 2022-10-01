@@ -60,9 +60,21 @@ function App() {
             gap: 2,
           }}
         >
-          <Box sx={{ width: "33.3%" }} component="img" src="img/1ga.png"></Box>
-          <Box sx={{ width: "33.3%" }} component="img" src="img/2ga.png"></Box>
-          <Box sx={{ width: "33.3%" }} component="img" src="img/3ga.png"></Box>
+          <Box
+            sx={{ width: "33.3%" }}
+            component="img"
+            src="img/FONDOS FUTBOL2.jpg"
+          ></Box>
+          <Box
+            sx={{ width: "33.3%" }}
+            component="img"
+            src="img/FONDOS FUTBOL3.jpg"
+          ></Box>
+          <Box
+            sx={{ width: "33.3%" }}
+            component="img"
+            src="img/FONDOS FUTBOL4.jpg"
+          ></Box>
         </Box>
         <Box
           sx={{
@@ -75,7 +87,11 @@ function App() {
             mt: 10,
           }}
         >
-          <Box sx={{ width: "70%" }} component="img" src="img/video.png"></Box>
+          <Box
+            sx={{ width: "70%" }}
+            component="img"
+            src="img/FONDOS FUTBOL1.jpg"
+          ></Box>
           <Typography sx={{ width: "30%", fontSize: "1.3rem" }}>
             Bienvenido a la plataforma pionera en Latino America especializada
             en trading deportivo. Disfruta al máximo nuestra tecnología de

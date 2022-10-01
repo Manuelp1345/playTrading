@@ -5,6 +5,9 @@ import App, { Loading } from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DataProvider } from "./modules/context/DataContext";
+import TradingBot from "./modules/TradingBot";
+import QuienesSomos from "./modules/QuienesSomos";
+import Team from "./modules/Team";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,6 +16,9 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
+          <Route path="/trading-bot" element={<TradingBot />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/quienes-somos" element={<QuienesSomos />} />
           <Route path="/loading" element={<Loading />} />
         </Routes>
       </BrowserRouter>

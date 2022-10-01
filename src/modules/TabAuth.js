@@ -43,7 +43,7 @@ function a11yProps(index) {
 
 export default function TabAuth() {
   const [value, setValue] = React.useState(0);
-  const [loading, setLoading] = React.useState(false);
+  /*   const [loading, setLoading] = React.useState(false); */
   const [error, setError] = React.useState("");
   const [formLogin, setFormLogin] = React.useState({ user: "", pass: "" });
   const { tabIndex, setUser } = React.useContext(DataContext);
@@ -72,11 +72,16 @@ export default function TabAuth() {
     try {
       response = await axios.get(
         "http://soltechgroup.net:8080/api/cuota/",
+        /*   {
+          username: "manuelp1345@gmail.con",
+          password: "api54321",
+        }, */
 
         {
           headers: {
+            "Access-Control-Allow-Methods": "POST",
+            "Access-Control-Allow-Headers": "Content-Type,Authorization",
             Authorization: "Token e366fedf18467d39a36e099fd5391ebab48b7c33",
-            "Content-Type": "application/json",
           },
         }
       );

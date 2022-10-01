@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { DataContext } from "../context/DataContext";
+import ButtonDropDown from "./ButtonDropDown";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["Nosotros", "Servicios", "Historico", "contacto"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -25,6 +27,8 @@ const ResponsiveAppBar = () => {
   const { open, setOpen } = modalAuth;
   const { setTabIndex } = tabIndex;
 
+  const navigate = useNavigate();
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -32,7 +36,9 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e) => {
+    console.log(e.target.getInnerHTML());
+
     setAnchorElNav(null);
   };
 
@@ -61,11 +67,13 @@ const ResponsiveAppBar = () => {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box
-            component="img"
-            width={200}
-            src="img/Logo horizontal Play Trading.png"
-          />
+          <Button onClick={() => navigate("/")}>
+            <Box
+              component="img"
+              width={200}
+              src="img/Logo horizontal Play Trading.png"
+            />
+          </Button>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -116,15 +124,20 @@ const ResponsiveAppBar = () => {
             <Box
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, mr: 5 }}
             >
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
-              ))}
+              {pages.map((page) =>
+                page === pages[1] || page === pages[0] ? (
+                  <ButtonDropDown content={page} />
+                ) : (
+                  <Button
+                    id={page}
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    {page}
+                  </Button>
+                )
+              )}
             </Box>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
