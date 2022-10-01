@@ -1,13 +1,25 @@
 import "./App.css";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import ResponsiveAppBar from "./modules/header/nav";
 import { DataContext } from "./modules/context/DataContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "./modules/Footer";
 
 function App() {
-  return (
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    window.addEventListener("load", (event) => {
+      console.log("page is fully loaded");
+      setLoading(!loading);
+    });
+  });
+
+  return loading ? (
+    <>
+      <Loading />
+    </>
+  ) : (
     <Box sx={{ overflow: "hidden" }}>
       <ResponsiveAppBar />
       <Box
@@ -215,20 +227,26 @@ function App() {
 export default App;
 
 export const Loading = () => {
-  const { setUser } = useContext(DataContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setUser({
-      user: "manuel",
-      pass: "123",
-    });
-    navigate("/");
-  }, [setUser, navigate]);
-
   return (
-    <>
-      <h1>Hola</h1>
-    </>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        height: "100vh",
+        background:
+          " radial-gradient(circle, rgba(186,186,186,0.5) 25%, rgba(3,115,140,1) 50%, rgba(1,35,64,1) 100%)",
+        pt: -10,
+      }}
+    >
+      <Box
+        sx={{ width: "30%", mt: -10, pb: 0 }}
+        component="img"
+        src="img/IMAGOTIPO PLAY TRADING PRINCIPAL.png"
+      />
+      <CircularProgress sx={{ mt: -10 }} />
+    </Box>
   );
 };
