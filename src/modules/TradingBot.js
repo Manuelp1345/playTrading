@@ -1,5 +1,6 @@
 import { Box } from "@mui/system";
 import React from "react";
+import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 
 const TradingBot = () => {
@@ -14,6 +15,7 @@ const TradingBot = () => {
           height: "100vh",
         }}
       ></Box>
+      <Footer />
     </Box>
   );
 };
