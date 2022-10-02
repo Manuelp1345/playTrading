@@ -70,28 +70,37 @@ export default function TabAuth() {
     setError("");
     let response;
     try {
-      response = await axios.get(
-        "http://soltechgroup.net:8080/api/cuota/",
-        /*   {
-          username: "manuelp1345@gmail.con",
-          password: "api54321",
-        }, */
-
+      response = await axios.post(
+        "http://soltechgroup.net:8080/api/usuario/token",
         {
-          headers: {
-            "Access-Control-Allow-Methods": "POST",
-            "Access-Control-Allow-Headers": "Content-Type,Authorization",
-            Authorization: "Token e366fedf18467d39a36e099fd5391ebab48b7c33",
-          },
+          email: user,
+          password: pass,
         }
       );
     } catch (error) {
-      console.log(error);
-      setError("error");
+      console.log(error.response.data.non_field_errors);
+      return setError(error.response.data.non_field_errors[0]);
     }
     setError("");
 
-    setUser({ token: response.token });
+    if (response.data.token) {
+      const token = response.data.token;
+      try {
+        response = await axios.get(
+          "http://soltechgroup.net:8080/api/usuario/yo",
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error.response.data.non_field_errors);
+        return setError(error.response.data.non_field_errors[0]);
+      }
+      console.log(response.data);
+      setUser({ token, ...response.data });
+    }
   };
 
   return (

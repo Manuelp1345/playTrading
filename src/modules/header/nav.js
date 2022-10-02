@@ -16,14 +16,14 @@ import ButtonDropDown from "./ButtonDropDown";
 import { useNavigate } from "react-router-dom";
 
 const pages = ["Nosotros", "Servicios", "Historico", "contacto"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Perfil", "Cerrar Sesion"];
 const settingLogout = ["Ingresar", "Registrarse"];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const { user, modalAuth, tabIndex } = React.useContext(DataContext);
+  const { user, setUser, modalAuth, tabIndex } = React.useContext(DataContext);
   const { open, setOpen } = modalAuth;
   const { setTabIndex } = tabIndex;
 
@@ -33,6 +33,7 @@ const ResponsiveAppBar = () => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
+    console.log(event.currentTarget);
     setAnchorElUser(event.currentTarget);
   };
 
@@ -51,6 +52,11 @@ const ResponsiveAppBar = () => {
     if (value === "Registrarse") {
       setTabIndex(1);
       setOpen(!open);
+    }
+    if (value === "Cerrar Sesion") {
+      setUser({});
+      setOpen(!open);
+      navigate("/");
     }
 
     setAnchorElUser(null);
@@ -145,11 +151,13 @@ const ResponsiveAppBar = () => {
             </Box>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/static/images/avatar/1.jpg">MP</Avatar>
+                <Avatar src="/static/images/avatar/1.jpg">
+                  {user.name ? user.name[0] : null}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: "45px", width: "500px !important" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -163,8 +171,26 @@ const ResponsiveAppBar = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              PaperProps={{
+                style: {
+                  width: "30ch",
+                },
+              }}
             >
-              {user.user
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                <Avatar src="/static/images/avatar/1.jpg">
+                  {user.name ? user.name[0] : null}
+                </Avatar>
+                <Typography> {user.name}</Typography>
+              </Box>
+              {user.token
                 ? settings.map((setting) => (
                     <MenuItem
                       key={setting}

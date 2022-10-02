@@ -48,7 +48,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CustomizedDialogs() {
-  const { modalAuth } = React.useContext(DataContext);
+  const { modalAuth, user } = React.useContext(DataContext);
   const { open, setOpen } = modalAuth;
 
   /*   const handleClickOpen = () => {
@@ -57,6 +57,12 @@ export default function CustomizedDialogs() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    if (user.token !== "" || user.token !== undefined) {
+      setOpen(false);
+    }
+  }, [user, setOpen]);
 
   return (
     <div>
