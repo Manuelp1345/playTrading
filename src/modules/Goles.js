@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 
-const TradingBot = () => {
+const Goles = () => {
   const navigate = useNavigate();
 
   return (
@@ -153,4 +153,4 @@ const TradingBot = () => {
   );
 };
 
-export default TradingBot;
+export default Goles;

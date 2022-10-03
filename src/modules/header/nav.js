@@ -152,7 +152,7 @@ const ResponsiveAppBar = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="/static/images/avatar/1.jpg">
-                  {user.name ? user.name[0] : null}
+                  {user.name ? `${user.name[0]}${user.apellido[0]}` : null}
                 </Avatar>
               </IconButton>
             </Tooltip>
@@ -186,9 +186,12 @@ const ResponsiveAppBar = () => {
                 }}
               >
                 <Avatar src="/static/images/avatar/1.jpg">
-                  {user.name ? user.name[0] : null}
+                  {user.name ? `${user.name[0]}${user.apellido[0]}` : null}
                 </Avatar>
-                <Typography> {user.name}</Typography>
+                <Typography>
+                  {" "}
+                  {user.name ? `${user.name} ${user.apellido}` : null}
+                </Typography>
               </Box>
               {user.token
                 ? settings.map((setting) => (

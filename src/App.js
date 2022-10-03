@@ -1,4 +1,3 @@
-import "./App.css";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import ResponsiveAppBar from "./modules/header/nav";
 import Footer from "./modules/Footer";
