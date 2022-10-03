@@ -7,7 +7,6 @@ import {
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
-import moment from "moment/moment";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70, hide: true },
