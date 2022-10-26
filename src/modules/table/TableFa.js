@@ -11,20 +11,36 @@ import { Box } from "@mui/system";
 const columns = [
   { field: "id", headerName: "ID", width: 70, hide: true },
   {
-    field: "casa",
-    headerName: "PARTIDOS",
+    field: "local",
+    headerName: "Local",
     width: 130,
     headerClassName: "backGround",
     headerAlign: "center",
     flex: 1,
   },
   {
-    field: "local",
-    headerName: "",
+    field: "vs",
+    headerName: "VS",
+    width: 50,
+    headerClassName: "backGround",
+    headerAlign: "center",
+  },
+  {
+    field: "visitante",
+    headerName: "Visitante",
     width: 130,
     headerClassName: "backGround",
     headerAlign: "center",
+    textAlign: "center",
     flex: 1,
+  },
+  {
+    field: "l",
+    headerName: "Cuota",
+    type: "number",
+    width: 100,
+    headerClassName: "backGround",
+    headerAlign: "center",
   },
   {
     field: "fechahora",
@@ -33,14 +49,6 @@ const columns = [
     headerClassName: "backGround",
     headerAlign: "center",
     flex: 1,
-  },
-  {
-    field: "age",
-    headerName: "Cuota",
-    type: "number",
-    width: 100,
-    headerClassName: "backGround",
-    headerAlign: "center",
   },
 ];
 

@@ -35,14 +35,6 @@ const columns = [
     flex: 1,
   },
   {
-    field: "l",
-    headerName: "Cuota",
-    type: "number",
-    width: 100,
-    headerClassName: "backGround",
-    headerAlign: "center",
-  },
-  {
     field: "fechahora",
     headerName: "FECHA Y HORA",
     width: 130,
@@ -71,7 +63,7 @@ function CustomToolbar() {
   );
 }
 
-export default function TableGa({ rows }) {
+export default function TableGO({ rows }) {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -100,7 +92,7 @@ export default function TableGa({ rows }) {
         }}
         localeText={{
           toolbarExport: "Exportar",
-          toolbarExportCSV: "Descargar CSV",
+          toolbarExportCSV: "Descargar Excel",
           toolbarExportPrint: "Imprimir",
           toolbarFilters: "Filtrar",
           filterPanelColumns: "Columna",

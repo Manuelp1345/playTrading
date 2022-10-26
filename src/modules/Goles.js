@@ -1,154 +1,114 @@
-import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
+import TableGO from "./table/TableGO";
+
+const fetchGO = async (url) => {
+  let response;
+  try {
+    response = await axios.get(url, {
+      headers: {
+        Authorization: "Token e366fedf18467d39a36e099fd5391ebab48b7c33",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  let result = response.data.results;
+  if (response.data.next !== null) {
+    const data = await fetchGO(response.data.next);
+    console.log(data);
+    return result.concat(data);
+  }
+  console.log(result);
+
+  return result;
+};
 
 const Goles = () => {
-  const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    const video = document.querySelector("#video");
+    (async () => {
+      await video.play();
+      video.onended = () => {
+        video.style.height = "50vh";
+        setLoading(false);
+      };
+      let response;
+      try {
+        response = await fetchGO(
+          "http://soltechgroup.net:8080/api/cuotas/?q=GA"
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("Response", response);
+      setData(
+        response.map((row) => {
+          console.log(row.fechahora);
+          row.fechahora = moment(`${row.fechahora}`).format(
+            "dddd, MMMM Do YYYY, h:mm a"
+          );
+          row.vs = "VS";
+          return row;
+        })
+      );
+    })();
+  }, []);
 
   return (
-    <Box sx={{ overflow: "hidden" }}>
+    <Box
+      sx={{
+        overflow: "hidden",
+        position: "relative",
+        height: "100%",
+        width: "100%",
+        transition: "all 0.5s ease-in-out",
+      }}
+    >
       <ResponsiveAppBar />
       <Box
+        component="video"
+        src="img/MERCADO +1,5 GOLES.mp4"
+        id="video"
         sx={{
-          backgroundImage: "url('img/Bot Play Trading.jpg')",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
+          top: "0",
           height: "100vh",
+          width: "100%",
+          transition: "all 0.5s ease-in-out",
+          zIndex: "1",
+          objectFit: "cover",
+          position: "absolute",
+          bottom: "0",
+          objectPosition: "center bottom",
         }}
       ></Box>
       <Box
-        sx={{ width: "100%", height: "0.5rem", backgroundColor: "#05f2c7" }}
-      />
-      <Box
+        id="containerTable"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          width: "100%",
-          my: "1rem",
+          marginTop: "50vh",
         }}
       >
         <Box
           sx={{
-            mt: "4rem",
-            width: "85%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-            gap: "8rem",
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: "1.1rem",
-              mt: "1rem",
-              textAlign: "center",
-            }}
-          >
-            Perfil Fundador y ceo de la marca póker geek que tiene presencia en
-            8 países entre América y Europa dedicado a póker en línea y venta de
-            productos de póker. Socio propietario y fundador de empresas como,
-            Smartbpay dedicada a la capitalización de activos digitales,
-            Soulteach dedicada al desarrollo tecnológico e innovación en
-            proyectos digitales en Ecuador. Ex propietario de casas de juego
-            online. Inversionista en varias empresas dedicadas a rubros varios
-            como restaurantes, discotecas y spas. Imagen para Latinoamérica de
-            la marca póker Bros como embajador.
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            width: "95%",
+            width: "100%",
             height: "0.5rem",
             backgroundColor: "#05f2c7",
-            mt: "4rem",
           }}
         />
-        <Box
-          sx={{
-            mt: "4rem",
-            width: "70%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            mb: "3rem",
-          }}
-        >
-          <Button
-            sx={{
-              width: "20%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1.5rem",
-              color: "black",
-            }}
-            onClick={() => navigate("/favoritos")}
-          >
-            <Box
-              sx={{ width: "80%" }}
-              component="img"
-              src="img/Icono favoritos.jpg"
-            ></Box>
-            <Typography
-              sx={{ width: "100%", fontSize: "1.5rem", textAlign: "center" }}
-            >
-              Favoritos a ganar
-            </Typography>
-          </Button>
-          <Button
-            sx={{
-              width: "20%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1.5rem",
-              color: "black",
-            }}
-            onClick={() => navigate("/goles")}
-          >
-            <Box
-              sx={{ width: "80%" }}
-              component="img"
-              src="img/Icono goles.jpg"
-            ></Box>
-            <Typography
-              sx={{ width: "100%", fontSize: "1.5rem", textAlign: "center" }}
-            >
-              Goles
-            </Typography>
-          </Button>
-          <Button
-            sx={{
-              width: "20%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1.5rem",
-              color: "black",
-            }}
-            onClick={() => navigate("/gana-sin-empate")}
-          >
-            <Box
-              sx={{ width: "80%" }}
-              component="img"
-              src="img/Icono gana sin empate.jpg"
-            ></Box>
-            <Typography
-              sx={{ width: "100%", fontSize: "1.5rem", textAlign: "center" }}
-            >
-              Gana sin empate
-            </Typography>
-          </Button>
-        </Box>
+        <TableGO rows={!loading && data} />
+        <Footer />
       </Box>
-      <Footer />
     </Box>
   );
 };

@@ -57,8 +57,9 @@ const GanaSinEmpate = () => {
         response.map((row) => {
           console.log(row.fechahora);
           row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm:ss a"
+            "dddd, MMMM Do YYYY, h:mm a"
           );
+          row.vs = "VS";
           return row;
         })
       );
