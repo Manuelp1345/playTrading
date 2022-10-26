@@ -3,6 +3,9 @@ import axios from "axios";
 import moment from "moment";
 import "moment/locale/es";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { DataContext } from "./context/DataContext";
+import { REACT_APP_TOKEN } from "./envariomens";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 import TableFa from "./table/TableFa";
@@ -13,7 +16,7 @@ const fetchFA = async (url) => {
   try {
     response = await axios.get(url, {
       headers: {
-        Authorization: "Token e366fedf18467d39a36e099fd5391ebab48b7c33",
+        Authorization: `Token ${REACT_APP_TOKEN}`,
       },
     });
   } catch (error) {
@@ -32,7 +35,21 @@ const fetchFA = async (url) => {
 
 const Favoritos = () => {
   const [data, setData] = useState([]);
+  const { user } = React.useContext(DataContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (user.auth === undefined || user.auth === false)
+      navigate("/trading-bot");
+    if (user.is_active === false) navigate("/trading-bot");
+
+    if (user.is_premium === false && user.is_staff === false)
+      navigate("/trading-bot");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     const video = document.querySelector("#video");
     (async () => {
       await video.play();
@@ -54,11 +71,12 @@ const Favoritos = () => {
           row.fechahora = moment(`${row.fechahora}`).format(
             "dddd, MMMM Do YYYY, h:mm:ss a"
           );
+          row.vs = "VS";
           return row;
         })
       );
     })();
-  }, []);
+  }, [user, navigate]);
 
   return (
     <Box

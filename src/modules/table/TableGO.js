@@ -17,6 +17,7 @@ const columns = [
     headerClassName: "backGround",
     headerAlign: "center",
     flex: 1,
+    align: "center",
   },
   {
     field: "vs",
@@ -24,6 +25,7 @@ const columns = [
     width: 50,
     headerClassName: "backGround",
     headerAlign: "center",
+    align: "center",
   },
   {
     field: "visitante",
@@ -33,6 +35,7 @@ const columns = [
     headerAlign: "center",
     textAlign: "center",
     flex: 1,
+    align: "center",
   },
   {
     field: "fechahora",
@@ -41,6 +44,7 @@ const columns = [
     headerClassName: "backGround",
     headerAlign: "center",
     flex: 1,
+    align: "center",
   },
 ];
 
