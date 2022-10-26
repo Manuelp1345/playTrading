@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import { Alert, Button, TextField } from "@mui/material";
 import { DataContext } from "./context/DataContext";
 import axios from "axios";
+import { REACT_APP_TOKEN } from "./envariomens";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -71,9 +72,9 @@ export default function TabAuth() {
     let response;
     try {
       response = await axios.post(
-        "http://soltechgroup.net:8080/api/usuario/token",
+        "http://soltechgroup.net:8080/api/usuario/auth",
         {
-          email: user,
+          username: user,
           password: pass,
         }
       );
@@ -83,14 +84,16 @@ export default function TabAuth() {
     }
     setError("");
 
-    if (response.data.token) {
-      const token = response.data.token;
+    console.log("Token", REACT_APP_TOKEN);
+
+    if (response.data.Autenticado) {
+      const auth = response.data.Autenticado;
       try {
         response = await axios.get(
-          "http://soltechgroup.net:8080/api/usuario/yo",
+          `http://soltechgroup.net:8080/api/usuario/${response.data.id}`,
           {
             headers: {
-              Authorization: `Token ${token}`,
+              Authorization: `Token ${REACT_APP_TOKEN}`,
             },
           }
         );
@@ -99,7 +102,7 @@ export default function TabAuth() {
         return setError(error.response.data.non_field_errors[0]);
       }
       console.log(response.data);
-      setUser({ token, ...response.data });
+      setUser({ auth, ...response.data.results[0] });
     }
   };
 

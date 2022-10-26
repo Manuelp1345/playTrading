@@ -193,7 +193,7 @@ const ResponsiveAppBar = () => {
                   {user.name ? `${user.name} ${user.apellido}` : null}
                 </Typography>
               </Box>
-              {user.token
+              {user.auth
                 ? settings.map((setting) => (
                     <MenuItem
                       key={setting}
