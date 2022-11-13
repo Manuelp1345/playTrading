@@ -8,7 +8,7 @@ import { Alert, Button, TextField } from "@mui/material";
 import { DataContext } from "./context/DataContext";
 import axios from "axios";
 import { REACT_APP_TOKEN } from "./envariomens";
-
+import swal from "sweetalert2";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -44,7 +44,7 @@ function a11yProps(index) {
 
 export default function TabAuth() {
   const [value, setValue] = React.useState(0);
-  /*   const [loading, setLoading] = React.useState(false); */
+  const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [formLogin, setFormLogin] = React.useState({ user: "", pass: "" });
   const { tabIndex, setUser } = React.useContext(DataContext);
@@ -71,6 +71,7 @@ export default function TabAuth() {
     setError("");
     let response;
     try {
+      setLoading(true);
       response = await axios.post(
         "http://soltechgroup.net:8080/api/usuario/auth",
         {
@@ -80,6 +81,7 @@ export default function TabAuth() {
       );
     } catch (error) {
       console.log(error.response.data.non_field_errors);
+      setLoading(false);
       return setError(error.response.data.non_field_errors[0]);
     }
     setError("");
@@ -103,6 +105,22 @@ export default function TabAuth() {
       }
       console.log(response.data);
       setUser({ auth, ...response.data.results[0] });
+      const Toast = swal.mixin({
+        toast: true,
+        position: "button-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", swal.stopTimer);
+          toast.addEventListener("mouseleave", swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: `Bienvenido ${response.data.results[0].name} ${response.data.results[0].apellido}`,
+      });
     }
   };
 
@@ -163,6 +181,7 @@ export default function TabAuth() {
             }}
             variant="contained"
             onClick={loginHandle}
+            disabled={loading}
           >
             Ingresar
           </Button>

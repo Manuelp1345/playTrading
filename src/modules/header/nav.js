@@ -16,7 +16,7 @@ import ButtonDropDown from "./ButtonDropDown";
 import { useNavigate } from "react-router-dom";
 
 const pages = ["Nosotros", "Servicios", "Historico", "contacto"];
-const settings = ["Perfil", "Cerrar Sesion"];
+const settings = [, /* "Perfil" */ "Cerrar Sesion"];
 const settingLogout = ["Ingresar", "Registrarse"];
 
 const ResponsiveAppBar = () => {
@@ -38,7 +38,10 @@ const ResponsiveAppBar = () => {
   };
 
   const handleCloseNavMenu = (e) => {
-    console.log(e.target.getInnerHTML());
+    const value = e.target.innerHTML.split("<")[0];
+    if (value === "Historico") {
+      navigate("/historico");
+    }
 
     setAnchorElNav(null);
   };

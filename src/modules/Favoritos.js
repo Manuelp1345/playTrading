@@ -35,6 +35,8 @@ const fetchFA = async (url) => {
 
 const Favoritos = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = React.useState(true);
+
   const { user } = React.useContext(DataContext);
   const navigate = useNavigate();
 
@@ -55,6 +57,7 @@ const Favoritos = () => {
       await video.play();
       video.onended = () => {
         video.style.height = "50vh";
+        setLoading(false);
       };
       let response;
       try {
@@ -72,6 +75,7 @@ const Favoritos = () => {
             "dddd, MMMM Do YYYY, h:mm:ss a"
           );
           row.vs = "VS";
+
           return row;
         })
       );
@@ -118,7 +122,7 @@ const Favoritos = () => {
             backgroundColor: "#05f2c7",
           }}
         />
-        <TableFa rows={data} />
+        <TableFa rows={!loading && data} />
         <Footer />
       </Box>
     </Box>

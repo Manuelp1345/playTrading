@@ -7,6 +7,7 @@ import {
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70, hide: true },
@@ -18,6 +19,21 @@ const columns = [
     headerAlign: "center",
     align: "center",
     flex: 1,
+
+    renderCell: (params) => {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            ml: "30%",
+          }}
+        >
+          <EmojiEventsIcon sx={{ color: "blue" }} /> &nbsp;{" "}
+          {`${params.formattedValue}`}
+        </Box>
+      );
+    },
   },
   {
     field: "vs",
@@ -37,7 +53,7 @@ const columns = [
     flex: 1,
     align: "center",
   },
-  {
+  /*   {
     field: "l",
     headerName: "Cuota",
     type: "number",
@@ -45,7 +61,7 @@ const columns = [
     headerClassName: "backGround",
     headerAlign: "center",
     align: "center",
-  },
+  }, */
   {
     field: "fechahora",
     headerName: "FECHA Y HORA",
@@ -77,6 +93,13 @@ function CustomToolbar() {
 }
 
 export default function TableFa({ rows }) {
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (rows.length > 0) {
+      setLoading(false);
+    }
+  }, [rows]);
   return (
     <Box
       sx={{
@@ -91,6 +114,9 @@ export default function TableFa({ rows }) {
       }}
     >
       <DataGrid
+        sx={{
+          zIndex: loading ? -1 : 1,
+        }}
         localeText={{
           toolbarExport: "Exportar",
           toolbarExportCSV: "Descargar CSV",

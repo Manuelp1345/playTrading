@@ -58,7 +58,7 @@ const Goles = () => {
       let response;
       try {
         response = await fetchGO(
-          "http://soltechgroup.net:8080/api/cuotas/?q=GA"
+          "http://soltechgroup.net:8080/api/cuotas/?q=GO"
         );
       } catch (error) {
         console.log(error);

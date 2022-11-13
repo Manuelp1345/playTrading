@@ -7,7 +7,6 @@ import {
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import { Box } from "@mui/system";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70, hide: true },
@@ -16,20 +15,7 @@ const columns = [
     headerName: "Local",
     width: 130,
     headerClassName: "backGround",
-    renderCell: (params) => {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            width: "100%",
-            ml: "30%",
-          }}
-        >
-          <EmojiEventsIcon sx={{ color: "blue" }} /> &nbsp;{" "}
-          {`${params.formattedValue}`}
-        </Box>
-      );
-    },
+
     headerAlign: "center",
     flex: 1,
     align: "center",
@@ -91,15 +77,7 @@ function CustomToolbar() {
   );
 }
 
-export default function TableGa({ rows }) {
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    if (rows.length > 0) {
-      setLoading(false);
-    }
-  }, [rows]);
-
+export default function TableHistory({ rows, loading }) {
   return (
     <Box
       sx={{
@@ -114,7 +92,7 @@ export default function TableGa({ rows }) {
       }}
     >
       <DataGrid
-        id="TableGA"
+        id="TableHistory"
         sx={{
           zIndex: loading ? -1 : 1,
         }}
@@ -140,6 +118,7 @@ export default function TableGa({ rows }) {
           columnsPanelHideAllButton: "Ocultar todas",
           columnsPanelShowAllButton: "Mostrar todas",
         }}
+        loading={loading}
         rows={rows}
         columns={columns}
         pageSize={5}
