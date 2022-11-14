@@ -10,7 +10,7 @@ import Goles from "./modules/Goles";
 import GanaSinEmpate from "./modules/GanasinEmpate";
 import Favoritos from "./modules/Favoritos";
 import "./index.css";
-import Historico from "./modules/Historico";
+import HFA from "./modules/HFA";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -26,7 +26,7 @@ root.render(
           <Route path="/goles" element={<Goles />} />
           <Route path="/gana-sin-empate" element={<GanaSinEmpate />} />
           <Route path="/favoritos" element={<Favoritos />} />
-          <Route path="/historico" element={<Historico />} />
+          <Route path="/historico" element={<HFA />} />
         </Routes>
       </BrowserRouter>
     </DataProvider>

@@ -24,6 +24,9 @@ export default function ButtonDropDown({ content }) {
     if (value === "Quienes Somos") {
       navigate("/quienes-somos");
     }
+    if (value === "Goles") {
+      navigate("/Historico");
+    }
     setAnchorEl(null);
   };
 
@@ -48,6 +51,22 @@ export default function ButtonDropDown({ content }) {
           "aria-labelledby": "basic-button",
         }}
       >
+        {content === "Historico" && (
+          <MenuItem
+            sx={{
+              color: "#012340",
+              borderBottom: "2px solid #fff",
+
+              ":hover": {
+                borderBottom: "2px solid #012340",
+              },
+            }}
+            onClick={handleClose}
+            id="Goles"
+          >
+            Goles
+          </MenuItem>
+        )}
         <MenuItem
           sx={{
             color: "#012340",
@@ -58,9 +77,15 @@ export default function ButtonDropDown({ content }) {
             },
           }}
           onClick={handleClose}
-          id={content === "Nosotros" ? "Quienes Somos" : "TRADING BOT"}
+          id={
+            (content === "Nosotros" && "Quienes Somos") ||
+            (content === "Servicios" && "TRADING BOT") ||
+            (content === "Historico" && "Historico")
+          }
         >
-          {content === "Nosotros" ? "Quienes Somos" : "TRADING BOT"}
+          {(content === "Nosotros" && "Quienes Somos") ||
+            (content === "Servicios" && "TRADING BOT") ||
+            (content === "Historico" && "Favoritos")}
         </MenuItem>
         <MenuItem
           sx={{
@@ -72,9 +97,15 @@ export default function ButtonDropDown({ content }) {
             },
           }}
           onClick={handleClose}
-          id={content === "Nosotros" ? "Team" : "CANAL PREMIUM"}
+          id={
+            (content === "Nosotros" && "Team") ||
+            (content === "Servicios" && "CANAL PREMIUM") ||
+            (content === "Historico" && "Favoritos")
+          }
         >
-          {content === "Nosotros" ? "Team" : "CANAL PREMIUM"}
+          {(content === "Nosotros" && "Team") ||
+            (content === "Servicios" && "CANAL PREMIUM") ||
+            (content === "Historico" && "Gana sin empate")}
         </MenuItem>
       </Menu>
     </div>

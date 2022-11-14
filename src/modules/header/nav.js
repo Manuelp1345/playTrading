@@ -38,11 +38,6 @@ const ResponsiveAppBar = () => {
   };
 
   const handleCloseNavMenu = (e) => {
-    const value = e.target.innerHTML.split("<")[0];
-    if (value === "Historico") {
-      navigate("/historico");
-    }
-
     setAnchorElNav(null);
   };
 
@@ -114,7 +109,7 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) =>
-                page === pages[1] || page === pages[0] ? (
+                page === pages[1] || page === pages[0] || page === pages[2] ? (
                   <ButtonDropDown content={page} />
                 ) : (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -138,7 +133,7 @@ const ResponsiveAppBar = () => {
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, mr: 5 }}
             >
               {pages.map((page) =>
-                page === pages[1] || page === pages[0] ? (
+                page === pages[1] || page === pages[0] || page === pages[2] ? (
                   <ButtonDropDown content={page} />
                 ) : (
                   <Button
@@ -155,7 +150,9 @@ const ResponsiveAppBar = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="/static/images/avatar/1.jpg">
-                  {user.name ? `${user.name[0]}${user.apellido[0]}` : null}
+                  {user.name
+                    ? `${user.name[0].toUpperCase()}${user.apellido[0].toUpperCase()}`
+                    : null}
                 </Avatar>
               </IconButton>
             </Tooltip>
@@ -189,7 +186,9 @@ const ResponsiveAppBar = () => {
                 }}
               >
                 <Avatar src="/static/images/avatar/1.jpg">
-                  {user.name ? `${user.name[0]}${user.apellido[0]}` : null}
+                  {user.name
+                    ? `${user.name[0].toUpperCase()}${user.apellido[0].toUpperCase()}`
+                    : null}
                 </Avatar>
                 <Typography>
                   {" "}
