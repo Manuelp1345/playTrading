@@ -4,19 +4,17 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "./context/DataContext";
-import { REACT_APP_TOKEN } from "./envariomens";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 import TableGO from "./table/TableGO";
 
-const fetchGO = async (url) => {
+const fetchGO = async (next) => {
   let response;
+
   try {
-    response = await axios.get(url, {
-      headers: {
-        Authorization: `Token ${REACT_APP_TOKEN}`,
-      },
-    });
+    response = await axios.get(
+      `server/cuotas.php?${next ? next.split("?")[1] : "q=GO"}`
+    );
   } catch (error) {
     console.log(error);
   }
@@ -57,9 +55,7 @@ const Goles = () => {
       };
       let response;
       try {
-        response = await fetchGO(
-          "http://soltechgroup.net:8080/api/cuotas/?q=GO"
-        );
+        response = await fetchGO();
       } catch (error) {
         console.log(error);
       }

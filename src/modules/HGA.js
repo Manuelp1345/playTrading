@@ -3,19 +3,17 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect } from "react";
-import { REACT_APP_TOKEN } from "./envariomens";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 import TableHistory from "./table/TableHistory";
 
-const fetchFA = async (url) => {
+const fetchFA = async (next) => {
   let response;
+
   try {
-    response = await axios.get(url, {
-      headers: {
-        Authorization: `Token ${REACT_APP_TOKEN}`,
-      },
-    });
+    response = await axios.get(
+      `server/partidos.php?${next ? next.split("?")[1] : "q=GA"}`
+    );
   } catch (error) {
     console.log(error);
   }
@@ -30,61 +28,30 @@ const fetchFA = async (url) => {
   return result;
 };
 
-const Historico = () => {
+const HGA = () => {
   const [loading, setLoading] = React.useState(true);
-  const [data, setData] = React.useState([]);
-  const [data1, setData1] = React.useState([]);
   const [data2, setData2] = React.useState([]);
 
   useEffect(() => {
     (async () => {
       let response;
       try {
-        response = await fetchFA(
-          "http://soltechgroup.net:8080/api/partidos?q=GA"
-        );
+        response = await fetchFA();
       } catch (error) {
         console.log(error);
       }
+      const filterr = response.filter(
+        (row) =>
+          moment().diff(moment(row.fechahora), "hours") > 12 &&
+          moment().diff(moment(row.fechahora), "day") === 0 &&
+          row.goles_local !== null
+      );
       setData2(
-        response.map((row) => {
+        filterr.map((row) => {
           row.fechahora = moment(`${row.fechahora}`).format(
             "dddd, MMMM Do YYYY, h:mm a"
           );
-          row.vs = "VS";
-          return row;
-        })
-      );
-
-      try {
-        response = await fetchFA(
-          "http://soltechgroup.net:8080/api/partidos?q=FA"
-        );
-      } catch (error) {
-        console.log(error);
-      }
-      setData(
-        response.map((row) => {
-          row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm a"
-          );
-          row.vs = "VS";
-          return row;
-        })
-      );
-
-      try {
-        response = await fetchFA(
-          "http://soltechgroup.net:8080/api/partidos?q=GO"
-        );
-      } catch (error) {
-        console.log(error);
-      }
-      setData1(
-        response.map((row) => {
-          row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm a"
-          );
+          row.resultado = `${row.goles_local}-${row.goles_visitante}`;
           row.vs = "VS";
           return row;
         })
@@ -98,7 +65,7 @@ const Historico = () => {
       <ResponsiveAppBar />
       <Box
         sx={{
-          backgroundImage: "url('img/SECCION HISTORIAL.jpg')",
+          backgroundImage: "url('img/HIST_GANA_SIN_EMP.jpg')",
           backgroundPosition: "center",
           backgroundSize: "cover",
           height: "100vh",
@@ -122,22 +89,6 @@ const Historico = () => {
             fontSize: 50,
           }}
         >
-          Favoritos
-        </Typography>
-        <TableHistory loading={loading} rows={data} />
-        <Typography
-          sx={{
-            fontSize: 50,
-          }}
-        >
-          Goles
-        </Typography>
-        <TableHistory loading={loading} rows={data1} />
-        <Typography
-          sx={{
-            fontSize: 50,
-          }}
-        >
           Gana sin Empate
         </Typography>
         <TableHistory loading={loading} rows={data2} />
@@ -147,4 +98,4 @@ const Historico = () => {
   );
 };
 
-export default Historico;
+export default HGA;

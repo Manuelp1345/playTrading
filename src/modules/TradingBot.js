@@ -2,11 +2,14 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { DataContext } from "./context/DataContext";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 
 const TradingBot = () => {
   const navigate = useNavigate();
+  const { user, modalAuth } = React.useContext(DataContext);
 
   return (
     <Box sx={{ overflow: "hidden" }}>
@@ -39,7 +42,7 @@ const TradingBot = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "row",
+            flexDirection: { xs: "column", md: "row" },
             gap: "8rem",
           }}
         >
@@ -50,15 +53,9 @@ const TradingBot = () => {
               textAlign: "center",
             }}
           >
-            Perfil Fundador y ceo de la marca póker geek que tiene presencia en
-            8 países entre América y Europa dedicado a póker en línea y venta de
-            productos de póker. Socio propietario y fundador de empresas como,
-            Smartbpay dedicada a la capitalización de activos digitales,
-            Soulteach dedicada al desarrollo tecnológico e innovación en
-            proyectos digitales en Ecuador. Ex propietario de casas de juego
-            online. Inversionista en varias empresas dedicadas a rubros varios
-            como restaurantes, discotecas y spas. Imagen para Latinoamérica de
-            la marca póker Bros como embajador.
+            En esta sección podrás tener acceso a los análisis por inteligencia
+            artificial exclusivos de Play Trading. Disfruta los los distintos
+            mercados y saca el mayor partido a tu inversión!
           </Typography>
         </Box>
         <Box
@@ -74,22 +71,36 @@ const TradingBot = () => {
             mt: "4rem",
             width: "70%",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: { xs: "center", md: "space-between" },
             alignItems: "center",
-            flexDirection: "row",
+            flexDirection: { xs: "column", md: "row" },
             mb: "3rem",
           }}
         >
           <Button
             sx={{
-              width: "20%",
+              width: { xs: "50%", md: "20%" },
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
               gap: "1.5rem",
               color: "black",
             }}
-            onClick={() => navigate("/favoritos")}
+            onClick={() => {
+              if (user.auth === undefined || user.auth === false) {
+                return Swal.fire({
+                  title:
+                    "para ingresar al servicio debes ingresar o registrarte",
+
+                  didClose: () => {
+                    modalAuth.setOpen(true);
+                  },
+                });
+              }
+
+              navigate("/favoritos");
+            }}
           >
             <Box
               sx={{ width: "80%" }}
@@ -104,14 +115,27 @@ const TradingBot = () => {
           </Button>
           <Button
             sx={{
-              width: "20%",
+              width: { xs: "50%", md: "20%" },
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               gap: "1.5rem",
               color: "black",
             }}
-            onClick={() => navigate("/goles")}
+            onClick={() => {
+              if (user.auth === undefined || user.auth === false) {
+                return Swal.fire({
+                  title:
+                    "para ingresar al servicio debes ingresar o registrarte",
+
+                  didClose: () => {
+                    modalAuth.setOpen(true);
+                  },
+                });
+              }
+
+              navigate("/goles");
+            }}
           >
             <Box
               sx={{ width: "80%" }}
@@ -126,14 +150,26 @@ const TradingBot = () => {
           </Button>
           <Button
             sx={{
-              width: "20%",
+              width: { xs: "50%", md: "20%" },
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               gap: "1.5rem",
               color: "black",
             }}
-            onClick={() => navigate("/gana-sin-empate")}
+            onClick={() => {
+              if (user.auth === undefined || user.auth === false) {
+                return Swal.fire({
+                  title:
+                    "para ingresar al servicio debes ingresar o registrarte",
+
+                  didClose: () => {
+                    modalAuth.setOpen(true);
+                  },
+                });
+              }
+              navigate("/gana-sin-empate");
+            }}
           >
             <Box
               sx={{ width: "80%" }}

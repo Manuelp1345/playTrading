@@ -26,11 +26,11 @@ const ResponsiveAppBar = () => {
   const { user, setUser, modalAuth, tabIndex } = React.useContext(DataContext);
   const { open, setOpen } = modalAuth;
   const { setTabIndex } = tabIndex;
-
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
+    console.log("object");
   };
   const handleOpenUserMenu = (event) => {
     console.log(event.currentTarget);
@@ -38,11 +38,15 @@ const ResponsiveAppBar = () => {
   };
 
   const handleCloseNavMenu = (e) => {
+    console.log(e.target.innerHTML.split("<")[0]);
+    if (e.target.innerHTML.split("<")[0] === "contacto") navigate("/contact");
+
     setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = (param) => {
-    const value = param.target.getInnerHTML();
+    const value = param.target.innerHTML;
+    console.log(value);
     if (value === "Ingresar") {
       setTabIndex(0);
       setOpen(!open);

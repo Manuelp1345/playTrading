@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import { Alert, Button, Input, TextField } from "@mui/material";
 import { DataContext } from "./context/DataContext";
 import axios from "axios";
-import { REACT_APP_TOKEN } from "./envariomens";
 import swal from "sweetalert2";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,6 +49,7 @@ export default function TabAuth() {
   const [formRegister, setFormRegister] = React.useState({
     user: "",
     pass: "",
+    pass2: "",
     name: "",
     lasName: "",
     tel: null,
@@ -78,39 +78,36 @@ export default function TabAuth() {
     }
     setError("");
     let response;
+    const data = new FormData();
+    data.append("username", user);
+    data.append("password", pass);
+
     try {
       setLoading(true);
-      response = await axios.post(
-        "http://soltechgroup.net:8080/api/usuario/auth",
-        {
-          username: user,
-          password: pass,
-        }
-      );
+      response = await axios.post(`server/auth.php`, data);
     } catch (error) {
       console.log(error.response.data.non_field_errors);
-      setLoading(false);
-      return setError(error.response.data.non_field_errors[0]);
     }
+    setLoading(false);
+
+    if (response.data.non_field_errors)
+      return setError(response.data.non_field_errors[0]);
+
     setError("");
 
-    console.log("Token", REACT_APP_TOKEN);
+    const dataTwo = new FormData();
+    dataTwo.append("id", response.data.id);
+    console.log(response.data.id);
 
     if (response.data.Autenticado) {
       const auth = response.data.Autenticado;
       try {
-        response = await axios.get(
-          `http://soltechgroup.net:8080/api/usuario/${response.data.id}`,
-          {
-            headers: {
-              Authorization: `Token ${REACT_APP_TOKEN}`,
-            },
-          }
-        );
+        response = await axios.post(`server/me.php`, dataTwo);
       } catch (error) {
         console.log(error.response.data.non_field_errors);
         return setError(error.response.data.non_field_errors[0]);
       }
+
       console.log(response.data);
       setUser({ auth, ...response.data.results[0] });
       const Toast = swal.mixin({
@@ -133,54 +130,42 @@ export default function TabAuth() {
   };
 
   const registerHandle = async () => {
-    const { user, pass, name, tel, lasName } = formRegister;
+    const { user, pass, name, tel, lasName, pass2 } = formRegister;
     setError("");
-    if (name === "") {
-      return setError("Debe ingresar un nombre.");
-    }
-    if (lasName === "") {
-      return setError("Debe ingresar un apelldio.");
-    }
-    if (tel === null || tel < 0) {
-      return setError("Debe ingresar un telefono valido.");
-    }
-    if (user === "" || !user.includes("@")) {
-      return setError("Debe ingresar un Correo.");
-    }
-    if (pass === "") {
-      return setError("Debe ingresar una contraseña.");
-    }
+    if (name === "") return setError("Debe ingresar un nombre.");
 
-    setError("");
+    if (lasName === "") return setError("Debe ingresar un apelldio.");
+
+    if (tel === null || tel < 0)
+      return setError("Debe ingresar un telefono valido.");
+
+    if (user === "" || !user.includes("@"))
+      return setError("Debe ingresar un Correo.");
+
+    if (pass === "") return setError("Debe ingresar una contraseña.");
+
+    if (pass2 === "") return setError("Debe confirmar la contraseña.");
+
+    if (pass !== pass2) setError("La contraseña no coinciden");
+
     let response;
+    const data = new FormData();
+    data.append("username", user);
+    data.append("password", pass);
+    data.append("lasName", lasName);
+    data.append("name", name);
+    data.append("tel", tel);
+
     try {
       setLoading(true);
-      response = await axios.post(
-        "http://soltechgroup.net:8080/api/usuario/crear",
-        {
-          email: user,
-          password: pass,
-          apellido: lasName,
-          name,
-          telefono: tel,
-        },
-        {
-          headers: {
-            Authorization: `Token ${REACT_APP_TOKEN}`,
-          },
-        }
-      );
+      response = await axios.post(`server/register.php`, data);
     } catch (error) {
       console.log(error.response.data.non_field_errors);
-      setLoading(false);
-      if (error.response.data.password)
-        return setError(error.response.data.password[0]);
-      if (error.response.data.email)
-        return setError(error.response.data.email[0]);
     }
+    setLoading(false);
+    if (response.data.password) return setError(response.data.password[0]);
+    if (response.data.email !== user) return setError(response.data.email[0]);
     setError("");
-
-    console.log("Token", REACT_APP_TOKEN);
 
     setUser({ ...response.data, auth: true });
     const Toast = swal.mixin({
@@ -243,7 +228,7 @@ export default function TabAuth() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "70vh",
+            width: "100%",
             gap: "1rem",
           }}
         >
@@ -266,6 +251,12 @@ export default function TabAuth() {
             onChange={(e) => {
               setFormLogin({ ...formLogin, pass: e.target.value });
             }}
+            onKeyDown={(e) => {
+              console.log(e);
+              if (e.code === "Enter") {
+                loginHandle();
+              }
+            }}
           />
           {error !== "" && <Alert severity="error">{error}</Alert>}
 
@@ -287,7 +278,8 @@ export default function TabAuth() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "70vh",
+            width: "100%",
+
             gap: "1rem",
           }}
         >
@@ -348,6 +340,16 @@ export default function TabAuth() {
             value={formRegister.pass}
             onChange={(e) => {
               setFormRegister({ ...formRegister, pass: e.target.value });
+            }}
+          />
+          <TextField
+            id="passLogin"
+            type="password"
+            label="Confirmar Contraseña"
+            variant="outlined"
+            value={formRegister.pass2}
+            onChange={(e) => {
+              setFormRegister({ ...formRegister, pass2: e.target.value });
             }}
           />
           {error !== "" && <Alert severity="error">{error}</Alert>}

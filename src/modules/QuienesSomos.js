@@ -1,10 +1,14 @@
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { DataContext } from "./context/DataContext";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 
 const QuienesSomos = () => {
+  const { modalAuth, tabIndex } = useContext(DataContext);
+  const navigate = useNavigate();
   return (
     <Box sx={{ overflow: "hidden" }}>
       <ResponsiveAppBar />
@@ -131,16 +135,15 @@ const QuienesSomos = () => {
             apuestas deportivas.
           </Typography>
 
-          <Box component="img" width="100%" src="img/imagen tecnología.png" />
+          <Box component="img" width="100%" src="img/imagen tec.png" />
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              flexDirection: "row",
+              flexDirection: { xs: "column", md: "row" },
               gap: 1,
               p: 5,
-              mb: "5rem",
             }}
           >
             <Box
@@ -151,18 +154,40 @@ const QuienesSomos = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 alignContent: "center",
+                color: "#05f2c7",
               }}
             >
-              <Box
-                sx={{ width: "50%" }}
-                component="img"
-                src="img/Icono canal premium.png"
-              ></Box>
-              <Typography
-                sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+              <Button
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignContent: "center",
+                  color: "#05f2c7",
+                }}
+                onClick={() =>
+                  window.open(
+                    "https://telegram.me/Comunityplaytrading",
+                    "_blank"
+                  )
+                }
               >
-                CANAL PREMIUM
-              </Typography>
+                <Box
+                  sx={{ width: "50%" }}
+                  component="img"
+                  src="img/Icono canal premium.png"
+                ></Box>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                    fontSize: "1.3rem",
+                  }}
+                >
+                  CANAL PREMIUM
+                </Typography>
+              </Button>
             </Box>
             <Box
               sx={{
@@ -171,18 +196,38 @@ const QuienesSomos = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 width: "33.3%",
+                color: "#05f2c7",
               }}
             >
-              <Typography
-                sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+              <Button
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignContent: "center",
+                  color: "#05f2c7",
+                }}
+                onClick={() => {
+                  tabIndex.setTabIndex(1);
+                  modalAuth.setOpen(true);
+                }}
               >
-                REGISTRATE GRATIS
-              </Typography>
-              <Box
-                sx={{ width: "50%" }}
-                component="img"
-                src="img/Boton Registrarse.png"
-              ></Box>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                    fontSize: "1.3rem",
+                  }}
+                >
+                  REGISTRATE GRATIS
+                </Typography>
+                <Box
+                  sx={{ width: "50%" }}
+                  component="img"
+                  src="img/Boton Registrarse.png"
+                ></Box>
+              </Button>
             </Box>
             <Box
               sx={{
@@ -192,20 +237,37 @@ const QuienesSomos = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 alignContent: "center",
+                color: "#05f2c7",
               }}
             >
-              <Box
+              <Button
                 sx={{
-                  width: "50%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignContent: "center",
+                  color: "#05f2c7",
                 }}
-                component="img"
-                src="img/Icono Bot Play Trading.png"
-              ></Box>
-              <Typography
-                sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+                onClick={() => navigate("/trading-bot")}
               >
-                TRADING BOT
-              </Typography>
+                <Box
+                  sx={{
+                    width: "50%",
+                  }}
+                  component="img"
+                  src="img/Icono Bot Play Trading.png"
+                ></Box>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                    fontSize: "1.3rem",
+                  }}
+                >
+                  TRADING BOT
+                </Typography>
+              </Button>
             </Box>
           </Box>
         </Box>

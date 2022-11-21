@@ -1,8 +1,13 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import ResponsiveAppBar from "./modules/header/nav";
 import Footer from "./modules/Footer";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { DataContext } from "./modules/context/DataContext";
 
 function App() {
+  const { modalAuth, tabIndex } = useContext(DataContext);
+  const navigate = useNavigate();
   return (
     <Box sx={{ overflow: "hidden" }}>
       <ResponsiveAppBar />
@@ -33,7 +38,7 @@ function App() {
           sx={{ width: "100%", height: "0.2rem", backgroundColor: "#05f2c7" }}
         ></Box>
         <Typography variant="h3" sx={{ mt: 5, mb: 5, color: "#012340" }}>
-          LAS REGLAS DEL JUEGO ESTÁN CAMBIANDO
+          Noticias
         </Typography>
 
         <Box
@@ -46,39 +51,81 @@ function App() {
             gap: 2,
           }}
         >
-          <Box
+          <Button
             sx={{ width: "33.3%" }}
-            component="img"
-            src="img/FONDOS FUTBOL2.jpg"
-          ></Box>
-          <Box
+            onClick={() => {
+              window.open(
+                "https://www.semana.com/deportes/articulo/universidad-de-oxford-predice-al-campeon-del-mundial-qatar-2022-argentina-vs-brasil-en-semifinales/202202/",
+                "_blank"
+              );
+            }}
+          >
+            <Box
+              sx={{ width: "100%" }}
+              component="img"
+              src="img/FONDOS FUTBOL2.jpg"
+            ></Box>
+          </Button>
+          <Button
             sx={{ width: "33.3%" }}
-            component="img"
-            src="img/FONDOS FUTBOL3.jpg"
-          ></Box>
-          <Box
+            onClick={() => {
+              window.open(
+                "https://www.semana.com/deportes/articulo/les-vale-cinco-la-multa-alemania-confirma-que-usara-simbolo-lgbti-en-el-mundial-qatar-2022/202211/ ",
+                "_blank"
+              );
+            }}
+          >
+            <Box
+              sx={{ width: "100%" }}
+              component="img"
+              src="img/FONDOS FUTBOL3.jpg"
+            ></Box>
+          </Button>
+
+          <Button
             sx={{ width: "33.3%" }}
-            component="img"
-            src="img/FONDOS FUTBOL4.jpg"
-          ></Box>
+            onClick={() => {
+              window.open(
+                "https://www.eltiempo.com/deportes/futbol-internacional/benzema-se-pierde-el-mundial-de-qatar-2022-por-lesion-segun-le-parisien-719000",
+                "_blank"
+              );
+            }}
+          >
+            <Box
+              sx={{ width: "100%" }}
+              component="img"
+              src="img/FONDOS FUTBOL4.jpg"
+            ></Box>
+          </Button>
         </Box>
+        <Typography variant="h3" sx={{ mt: 5, mb: 5, color: "#012340" }}>
+          LAS REGLAS DEL JUEGO ESTÁN CAMBIANDO
+        </Typography>
         <Box
           sx={{
             width: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "start",
-            flexDirection: "row",
+            flexDirection: { xs: "column", md: "row" },
             gap: 3,
             mt: 10,
           }}
         >
           <Box
-            sx={{ width: "70%" }}
-            component="img"
-            src="img/FONDOS FUTBOL1.jpg"
+            sx={{ width: { xs: "100%", md: "70%" } }}
+            component="video"
+            src="img/videoInicio.mp4"
+            controls
+            autoPlay={true}
           ></Box>
-          <Typography sx={{ width: "30%", fontSize: "1.3rem" }}>
+          <Typography
+            sx={{
+              width: { xs: "100%", md: "30%" },
+              fontSize: "1.3rem",
+              textAlign: { xs: "center", md: "start" },
+            }}
+          >
             Bienvenido a la plataforma pionera en Latino America especializada
             en trading deportivo. Disfruta al máximo nuestra tecnología de
             inteligencia artificial y obtén los mejores resultados del mercado.
@@ -114,16 +161,30 @@ function App() {
             color: "#05f2c7",
           }}
         >
-          <Box
-            sx={{ width: "50%" }}
-            component="img"
-            src="img/Icono canal premium.png"
-          ></Box>
-          <Typography
-            sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+          <Button
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+              color: "#05f2c7",
+            }}
+            onClick={() =>
+              window.open("https://telegram.me/Comunityplaytrading", "_blank")
+            }
           >
-            CANAL PREMIUM
-          </Typography>
+            <Box
+              sx={{ width: "50%" }}
+              component="img"
+              src="img/Icono canal premium.png"
+            ></Box>
+            <Typography
+              sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+            >
+              CANAL PREMIUM
+            </Typography>
+          </Button>
         </Box>
         <Box
           sx={{
@@ -135,16 +196,31 @@ function App() {
             color: "#05f2c7",
           }}
         >
-          <Typography
-            sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+          <Button
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+              color: "#05f2c7",
+            }}
+            onClick={() => {
+              tabIndex.setTabIndex(1);
+              modalAuth.setOpen(true);
+            }}
           >
-            REGISTRATE GRATIS
-          </Typography>
-          <Box
-            sx={{ width: "50%" }}
-            component="img"
-            src="img/Boton Registrarse.png"
-          ></Box>
+            <Typography
+              sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+            >
+              REGISTRATE GRATIS
+            </Typography>
+            <Box
+              sx={{ width: "50%" }}
+              component="img"
+              src="img/Boton Registrarse.png"
+            ></Box>
+          </Button>
         </Box>
         <Box
           sx={{
@@ -157,21 +233,33 @@ function App() {
             color: "#05f2c7",
           }}
         >
-          <Box
+          <Button
             sx={{
-              width: "50%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+              color: "#05f2c7",
             }}
-            component="img"
-            src="img/Icono Bot Play Trading.png"
-          ></Box>
-          <Typography
-            sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+            onClick={() => navigate("/trading-bot")}
           >
-            TRADING BOT
-          </Typography>
+            <Box
+              sx={{
+                width: "50%",
+              }}
+              component="img"
+              src="img/Icono Bot Play Trading.png"
+            ></Box>
+            <Typography
+              sx={{ textAlign: "center", width: "100%", fontSize: "1.3rem" }}
+            >
+              TRADING BOT
+            </Typography>
+          </Button>
         </Box>
       </Box>
-      <Box
+      {/*      <Box
         sx={{
           mt: 5,
           display: "flex",
@@ -199,7 +287,7 @@ function App() {
           están aquí para brindarte el más alto porcentaje de rentabilidad en
           toda la región.
         </Typography>
-      </Box>
+      </Box> */}
       <Box
         sx={{ width: "100%", height: "0.5rem", backgroundColor: "#05f2c7" }}
       ></Box>

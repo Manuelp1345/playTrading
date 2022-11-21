@@ -23,7 +23,7 @@ const Footer = () => {
           background:
             "radial-gradient(circle, rgba(3,115,140,1) 0%, rgba(1,35,64,1) 50%)",
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-between",
           alignItems: "center",
           px: 4,
@@ -37,7 +37,7 @@ const Footer = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: { xs: "column", md: "row" },
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -51,14 +51,14 @@ const Footer = () => {
               flexWrap: "wrap",
             }}
           >
-            {pagesFooter.map((page) => (
+            {/*             {pagesFooter.map((page) => (
               <Button
                 key={page}
                 sx={{ my: 0, color: "white", display: "block" }}
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
           </Box>
           <Box
             sx={{
@@ -66,6 +66,7 @@ const Footer = () => {
               height: "0.5rem",
               backgroundColor: "#05f2c7",
               transform: "rotate(90deg)",
+              display: { xs: "none", md: "block" },
             }}
           ></Box>
         </Box>
@@ -87,18 +88,49 @@ const Footer = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: { xs: "colum", md: "row" },
               justifyContent: "center",
               alignItems: "center",
               color: "white",
               width: 300,
             }}
           >
-            <FacebookIcon />
-            <Instagram />
-            <Telegram />
-            <YouTube />
-            <Twitter />
+            <Button
+              onClick={() => {
+                window.open(
+                  "https://www.instagram.com/play__trading/",
+                  "_blank"
+                );
+              }}
+              sx={{
+                color: "white",
+              }}
+            >
+              <Instagram />
+            </Button>
+            <Button
+              onClick={() => {
+                window.open(
+                  "https://telegram.me/Comunityplaytrading",
+                  "_blank"
+                );
+              }}
+              sx={{
+                color: "white",
+              }}
+            >
+              <Telegram />
+            </Button>
+            <Button
+              onClick={() => {
+                window.open("https://twitter.com/Play__Trading", "_blank");
+              }}
+              sx={{
+                color: "white",
+              }}
+            >
+              <Twitter />
+            </Button>
           </Box>
         </Box>
       </Box>

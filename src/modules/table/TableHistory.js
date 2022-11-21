@@ -38,15 +38,15 @@ const columns = [
     flex: 1,
     align: "center",
   },
-  /*   {
-    field: "l",
-    headerName: "Cuota",
+  {
+    field: "resultado",
+    headerName: "Resultados",
     type: "number",
     width: 100,
     headerClassName: "backGround",
     headerAlign: "center",
     align: "center",
-  }, */
+  },
   {
     field: "fechahora",
     headerName: "FECHA Y HORA",
@@ -117,6 +117,8 @@ export default function TableHistory({ rows, loading }) {
           columnsPanelTextFieldPlaceholder: "",
           columnsPanelHideAllButton: "Ocultar todas",
           columnsPanelShowAllButton: "Mostrar todas",
+          noRowsLabel:
+            "Al tercer día de estadísticas se mostraran los resultados.",
         }}
         loading={loading}
         rows={rows}

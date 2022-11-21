@@ -1,1 +1,1 @@
-export const REACT_APP_TOKEN = process.env.REACT_APP_TOKEN;
+export const URL = "http://localhost:3001";

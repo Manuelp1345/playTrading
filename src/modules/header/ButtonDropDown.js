@@ -15,6 +15,9 @@ export default function ButtonDropDown({ content }) {
   };
   const handleClose = (event) => {
     const value = event.target.id;
+    if (value === "CANAL PREMIUM") {
+      window.open("https://telegram.me/Comunityplaytrading", "_blank");
+    }
     if (value === "TRADING BOT") {
       navigate("/trading-bot");
     }
@@ -25,7 +28,13 @@ export default function ButtonDropDown({ content }) {
       navigate("/quienes-somos");
     }
     if (value === "Goles") {
-      navigate("/Historico");
+      navigate("/HGO");
+    }
+    if (value === "Gana sin empate") {
+      navigate("/HGA");
+    }
+    if (value === "Favoritos") {
+      navigate("/HFA");
     }
     setAnchorEl(null);
   };
@@ -80,7 +89,7 @@ export default function ButtonDropDown({ content }) {
           id={
             (content === "Nosotros" && "Quienes Somos") ||
             (content === "Servicios" && "TRADING BOT") ||
-            (content === "Historico" && "Historico")
+            (content === "Historico" && "Favoritos")
           }
         >
           {(content === "Nosotros" && "Quienes Somos") ||
@@ -100,7 +109,7 @@ export default function ButtonDropDown({ content }) {
           id={
             (content === "Nosotros" && "Team") ||
             (content === "Servicios" && "CANAL PREMIUM") ||
-            (content === "Historico" && "Favoritos")
+            (content === "Historico" && "Gana sin empate")
           }
         >
           {(content === "Nosotros" && "Team") ||

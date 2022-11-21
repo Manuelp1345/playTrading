@@ -115,6 +115,8 @@ export default function TableGO({ rows }) {
           columnsPanelTextFieldPlaceholder: "",
           columnsPanelHideAllButton: "Ocultar todas",
           columnsPanelShowAllButton: "Mostrar todas",
+          noRowsLabel:
+            "no se encontraron partidos con las características deseadas ",
         }}
         rows={rows}
         columns={columns}

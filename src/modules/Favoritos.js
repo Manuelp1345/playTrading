@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import moment from "moment";
@@ -5,20 +6,20 @@ import "moment/locale/es";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "./context/DataContext";
-import { REACT_APP_TOKEN } from "./envariomens";
 import Footer from "./Footer";
 import ResponsiveAppBar from "./header/nav";
 import TableFa from "./table/TableFa";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+
 moment.locale("es");
 
-const fetchFA = async (url) => {
+const fetchFA = async (next) => {
   let response;
+
   try {
-    response = await axios.get(url, {
-      headers: {
-        Authorization: `Token ${REACT_APP_TOKEN}`,
-      },
-    });
+    response = await axios.get(
+      `server/cuotas.php?${next ? next.split("?")[1] : "q=FA"}`
+    );
   } catch (error) {
     console.log(error);
   }
@@ -60,10 +61,9 @@ const Favoritos = () => {
         setLoading(false);
       };
       let response;
+
       try {
-        response = await fetchFA(
-          "http://soltechgroup.net:8080/api/cuotas/?q=FA"
-        );
+        response = await fetchFA();
       } catch (error) {
         console.log(error);
       }
@@ -122,6 +122,15 @@ const Favoritos = () => {
             backgroundColor: "#05f2c7",
           }}
         />
+        <Typography
+          sx={{
+            fontSize: 30,
+            textAlign: "center",
+          }}
+        >
+          El Simbolo de la <EmojiEventsIcon sx={{ color: "blue" }} /> Indica al
+          equipo que le debes apostar
+        </Typography>
         <TableFa rows={!loading && data} />
         <Footer />
       </Box>
