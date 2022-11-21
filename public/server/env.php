@@ -1,7 +1,7 @@
 <?php
 
 
-const token = 'e366fedf18467d39a36e099fd5391ebab48b7c33';
+const token = '';
 const apiUrl = "http://soltechgroup.net:9696";
 
 
