@@ -131,6 +131,19 @@ const Footer = () => {
             >
               <Twitter />
             </Button>
+            <Button
+              onClick={() => {
+                window.open(
+                  "https://www.facebook.com/profile.php?id=100086496880929&mibextid=ZbWKwL",
+                  "_blank"
+                );
+              }}
+              sx={{
+                color: "white",
+              }}
+            >
+              <FacebookIcon />
+            </Button>
           </Box>
         </Box>
       </Box>

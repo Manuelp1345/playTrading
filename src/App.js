@@ -1,12 +1,109 @@
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
 import ResponsiveAppBar from "./modules/header/nav";
 import Footer from "./modules/Footer";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "./modules/context/DataContext";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  getFirestore,
+  limit,
+  orderBy,
+  query,
+} from "firebase/firestore";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAZrG-wfDHDuEV7hfIiOvVQHum0itWqBqM",
+  authDomain: "playtradingdashboard.firebaseapp.com",
+  projectId: "playtradingdashboard",
+  storageBucket: "playtradingdashboard.appspot.com",
+  messagingSenderId: "1081764229177",
+  appId: "1:1081764229177:web:a97df8d568002a1c3d9de8",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
 
 function App() {
-  const { modalAuth, tabIndex } = useContext(DataContext);
+  const { modalAuth, tabIndex, user } = useContext(DataContext);
+  const [open, setOpen] = useState(false);
+  const [noticia, setNoticia] = useState({
+    imgUrl: "",
+    titular: "",
+    url: "",
+  });
+  const [noticias, setNoticias] = useState([
+    {
+      imgUrl: "",
+      titular: "Cargando...",
+      url: "",
+    },
+    {
+      imgUrl: "",
+      titular: "Cargando...",
+      url: "",
+    },
+    {
+      imgUrl: "",
+      titular: "Cargando...",
+      url: "",
+    },
+  ]);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleAgregarNoticia = async () => {
+    const docRef = await addDoc(collection(db, "noticias"), {
+      url: noticia.url,
+      imgUrl: noticia.imgUrl,
+      titular: noticia.titular,
+      fecha: new Date(),
+    });
+
+    console.log(docRef);
+    handleNoticias();
+    setNoticia({
+      imgUrl: "",
+      titular: "",
+      url: "",
+    });
+  };
+  const handleNoticias = async () => {
+    const auxNoticias = [];
+    const queryDB = query(
+      collection(db, "noticias"),
+      limit(3),
+      orderBy("fecha", "desc")
+    );
+    const querySnapshot = await getDocs(queryDB);
+    querySnapshot.forEach((doc) => {
+      auxNoticias.push(doc.data());
+    });
+    setNoticias(auxNoticias);
+    handleClose();
+  };
+
+  useEffect(() => {
+    (async () => {
+      await handleNoticias();
+    })();
+  }, []);
+
   const navigate = useNavigate();
   return (
     <Box sx={{ overflow: "hidden" }}>
@@ -40,7 +137,7 @@ function App() {
         <Typography variant="h3" sx={{ mt: 5, mb: 5, color: "#012340" }}>
           Noticias
         </Typography>
-
+        {user.is_staff && <Button onClick={handleOpen}>Agregar noticia</Button>}
         <Box
           sx={{
             width: "100%",
@@ -51,52 +148,29 @@ function App() {
             gap: 2,
           }}
         >
-          <Button
-            sx={{ width: "33.3%" }}
-            onClick={() => {
-              window.open(
-                "https://www.semana.com/deportes/articulo/universidad-de-oxford-predice-al-campeon-del-mundial-qatar-2022-argentina-vs-brasil-en-semifinales/202202/",
-                "_blank"
-              );
-            }}
-          >
-            <Box
-              sx={{ width: "100%" }}
-              component="img"
-              src="img/FONDOS FUTBOL2.jpg"
-            ></Box>
-          </Button>
-          <Button
-            sx={{ width: "33.3%" }}
-            onClick={() => {
-              window.open(
-                "https://www.semana.com/deportes/articulo/les-vale-cinco-la-multa-alemania-confirma-que-usara-simbolo-lgbti-en-el-mundial-qatar-2022/202211/ ",
-                "_blank"
-              );
-            }}
-          >
-            <Box
-              sx={{ width: "100%" }}
-              component="img"
-              src="img/FONDOS FUTBOL3.jpg"
-            ></Box>
-          </Button>
-
-          <Button
-            sx={{ width: "33.3%" }}
-            onClick={() => {
-              window.open(
-                "https://www.eltiempo.com/deportes/futbol-internacional/benzema-se-pierde-el-mundial-de-qatar-2022-por-lesion-segun-le-parisien-719000",
-                "_blank"
-              );
-            }}
-          >
-            <Box
-              sx={{ width: "100%" }}
-              component="img"
-              src="img/FONDOS FUTBOL4.jpg"
-            ></Box>
-          </Button>
+          {noticias.map((element) => {
+            return (
+              <Button
+                sx={{
+                  width: "33.3%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+                onClick={() => {
+                  window.open(element.url, "_blank");
+                }}
+              >
+                <Box
+                  sx={{ width: "100%" }}
+                  component="img"
+                  src={element.imgUrl}
+                ></Box>
+                <Typography>{element.titular}</Typography>
+              </Button>
+            );
+          })}
         </Box>
         <Typography variant="h3" sx={{ mt: 5, mb: 5, color: "#012340" }}>
           LAS REGLAS DEL JUEGO ESTÁN CAMBIANDO
@@ -292,6 +366,69 @@ function App() {
         sx={{ width: "100%", height: "0.5rem", backgroundColor: "#05f2c7" }}
       ></Box>
       <Footer />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <TextField
+            id="passLogin"
+            type="text"
+            label="Url de la noticia"
+            variant="outlined"
+            value={noticia.url}
+            onChange={(e) => {
+              setNoticia({ ...noticia, url: e.target.value });
+            }}
+          />
+          <TextField
+            id="passLogin"
+            type="text"
+            label="Titular de la noticia"
+            variant="outlined"
+            value={noticia.titular}
+            onChange={(e) => {
+              setNoticia({ ...noticia, titular: e.target.value });
+            }}
+          />
+          <TextField
+            id="passLogin"
+            type="text"
+            label="Url de Imagen de la noticia"
+            variant="outlined"
+            value={noticia.imgUrl}
+            onChange={(e) => {
+              setNoticia({ ...noticia, imgUrl: e.target.value });
+            }}
+          />
+          <Button
+            sx={{
+              backgroundColor: "#012340",
+              ":hover": { background: "#03738C" },
+            }}
+            variant="contained"
+            onClick={handleAgregarNoticia}
+          >
+            Agregar
+          </Button>
+        </Box>
+      </Modal>
     </Box>
   );
 }
