@@ -40,8 +40,18 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
+const urls = [
+  "img/videoInicio.mov",
+  "img/ViDEO ALEXANDER.mov",
+  "img/VIDEO JORGE.mov",
+];
+
 function App() {
   const { modalAuth, tabIndex, user } = useContext(DataContext);
+  const [videoActive, setVideoActive] = useState({
+    url: urls[0],
+    color: "#05f2c7",
+  });
   const [open, setOpen] = useState(false);
   const [noticia, setNoticia] = useState({
     imgUrl: "",
@@ -187,12 +197,75 @@ function App() {
           }}
         >
           <Box
-            sx={{ width: { xs: "100%", md: "70%" } }}
-            component="video"
-            src="img/videoInicio.mp4"
-            controls
-            autoPlay={true}
-          ></Box>
+            sx={{
+              width: { xs: "100%", md: "70%" },
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "start",
+              flexDirection: { xs: "column", md: "row" },
+              flexWrap: "wrap",
+              gap: 5,
+            }}
+          >
+            <Box
+              sx={{ width: "100%" }}
+              component="video"
+              src={videoActive.url}
+              controls
+              autoPlay={true}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 4,
+              }}
+            >
+              <Box
+                onClick={() => {
+                  setVideoActive({ ...videoActive, url: urls[0] });
+                }}
+                sx={{
+                  border: `5px solid ${
+                    urls[0] === videoActive.url && videoActive.color
+                  }`,
+                  cursor: "pointer",
+                }}
+                component="img"
+                src="img/ssvideo1.jpg"
+                width="20%"
+              ></Box>
+              <Box
+                onClick={() => {
+                  setVideoActive({ ...videoActive, url: urls[1] });
+                }}
+                sx={{
+                  border: `5px solid ${
+                    urls[1] === videoActive.url && videoActive.color
+                  }`,
+                  cursor: "pointer",
+                }}
+                component="img"
+                src="img/ssvideo2.jpg"
+                width="20%"
+              ></Box>
+              <Box
+                onClick={() => {
+                  setVideoActive({ ...videoActive, url: urls[2] });
+                }}
+                sx={{
+                  border: `5px solid ${
+                    urls[2] === videoActive.url && videoActive.color
+                  }`,
+                  cursor: "pointer",
+                }}
+                component="img"
+                src="img/ssvideo3.jpg"
+                width="20%"
+              ></Box>
+            </Box>
+          </Box>
           <Typography
             sx={{
               width: { xs: "100%", md: "30%" },
