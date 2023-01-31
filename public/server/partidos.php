@@ -9,10 +9,10 @@ require './env.php';
 $id = $_GET['q'];
 $data = "/api/partidos/?q=$id";
 
-if ($_GET['page']) {
-    $page = $_GET['page'];
-    $data = "/api/partidos/?q=$id&page=$page";
-}
+//if ($_GET['page']) {
+//    $page = $_GET['page'];
+//    $data = "/api/partidos/?q=$id&page=$page";
+//}
 
 $response = CallAPI("GET", apiUrl . $data);
 

@@ -15,17 +15,18 @@ const fetchFA = async (next) => {
 
   try {
     response = await axios.get(
-      `server/cuotas.php?${next ? next.split("?")[1] : "q=GA"}`
+      //`server/cuotas.php?${next ? next.split("?")[1] : "q=GA"}`
+      `server/cuotas.php?q=GA`
     );
   } catch (error) {
     console.log(error);
   }
   let result = response.data.results;
-  if (response.data.next !== null) {
+  /*if (response.data.next !== null) {
     const data = await fetchFA(response.data.next);
     console.log(data);
     return result.concat(data);
-  }
+  }*/
   console.log(result);
 
   return result;
@@ -66,7 +67,7 @@ const GanaSinEmpate = () => {
         response.map((row) => {
           console.log(row.fechahora);
           row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm a"
+            "dddd, DD MMMM YYYY, h:mm a"
           );
           row.vs = "VS";
           return row;

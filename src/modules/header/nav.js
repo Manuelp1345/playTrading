@@ -16,7 +16,7 @@ import ButtonDropDown from "./ButtonDropDown";
 import { useNavigate } from "react-router-dom";
 
 const pages = ["Nosotros", "Servicios", "Historico", "contacto"];
-const settings = [, /* "Perfil" */ "Cerrar Sesion"];
+const settings = [ /* "Perfil" */ "Cerrar Sesion"];
 const settingLogout = ["Ingresar", "Registrarse"];
 
 const ResponsiveAppBar = () => {

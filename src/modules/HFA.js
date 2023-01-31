@@ -11,59 +11,67 @@ const fetchFA = async (next) => {
   let response;
 
   try {
+    console.log(`Iniciando funcion fetchFA...NEXT DATOS:${next ? next.split("?")[1] : "q=FA"}`);
     response = await axios.get(
-      `server/partidos.php?${next ? next.split("?")[1] : "q=FA"}`
+      `server/partidos.php?q=FA`
     );
+    console.log(response.data.results);
+    console.log(`Terminando funcion fetchFA ${response.data.results}`);
   } catch (error) {
     console.log(error);
   }
+  console.log(`response.data.results: ${response.data.results}`)
   let result = response.data.results;
-  if (response.data.next !== null) {
-    const data = await fetchFA(response.data.next);
-    console.log(data);
-    return result.concat(data);
-  }
-  console.log(result);
-
+  console.log(`Revisando response.data.next  aXios.${response}.data: ${response.data}.next: ${response.data.next}`);
+  console.log(`TERMINA PEGAO Captura de API con fetchFA...`);
   return result;
+
 };
 
 const HFA = () => {
+  console.log(`Iniciando HFA...`);
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
 
   useEffect(() => {
     (async () => {
       let response;
-
+      console.log(`Cargando Filtrado de partidos ...`);
       try {
         response = await fetchFA();
+         console.log(`Respuesta useEffect: ...`);
+         console.log(response);
       } catch (error) {
         console.log(error);
       }
-
+      console.log(response);
       const filterr = response.filter(
         (row) =>
-          moment().diff(moment(row.fechahora), "hours") > 12 &&
-          moment().diff(moment(row.fechahora), "day") === 0 &&
-          row.goles_local !== null
+          //  se discrimina las tuplas de consulta api solo a campo status
+          row.status !== false
+          // moment().diff(moment(row.fechahora), "hours") > 12 &&
+          // moment().diff(moment(row.fechahora), "day") === 0 &&
       );
+      console.log(filterr);
       setData(
         filterr.map((row) => {
           row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm a"
+            "dddd, DD MMMM YYYY"
           );
-          row.resultado = `${row.goles_local}-${row.goles_visitante}`;
-
+          if ((row.goles_local === null) || (row.goles_visitante === null)) {
+            row.resultado = ` Pendiente `;
+            } else {
+            row.resultado = `${row.goles_local}-${row.goles_visitante}`;
+          }
           row.vs = "VS";
+          console.log(`Termina Filtrado y USEEFFECTS ${filterr}`);
           return row;
         })
       );
-
       setLoading(false);
     })();
   }, []);
-
+  console.log(`Terminando deploy de tabla y render...`);
   return (
     <Box sx={{ overflow: "hidden" }}>
       <ResponsiveAppBar />

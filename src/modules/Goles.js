@@ -13,17 +13,18 @@ const fetchGO = async (next) => {
 
   try {
     response = await axios.get(
-      `server/cuotas.php?${next ? next.split("?")[1] : "q=GO"}`
+      //`server/cuotas.php?${next ? next.split("?")[1] : "q=GO"}`
+      `server/cuotas.php?q=GO`
     );
   } catch (error) {
     console.log(error);
   }
   let result = response.data.results;
-  if (response.data.next !== null) {
+  /*if (response.data.next !== null) {
     const data = await fetchGO(response.data.next);
     console.log(data);
     return result.concat(data);
-  }
+  }*/
   console.log(result);
 
   return result;
@@ -64,7 +65,7 @@ const Goles = () => {
         response.map((row) => {
           console.log(row.fechahora);
           row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm a"
+            "dddd, DD MMMM YYYY, h:mm a"
           );
           row.vs = "VS";
           return row;

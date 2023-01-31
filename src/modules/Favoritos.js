@@ -18,17 +18,18 @@ const fetchFA = async (next) => {
 
   try {
     response = await axios.get(
-      `server/cuotas.php?${next ? next.split("?")[1] : "q=FA"}`
+      //`server/cuotas.php?${next ? next.split("?")[1] : "q=FA"}`
+      `server/cuotas.php?q=FA`
     );
   } catch (error) {
     console.log(error);
   }
   let result = response.data.results;
-  if (response.data.next !== null) {
+  /*if (response.data.next !== null) {
     const data = await fetchFA(response.data.next);
     console.log(data);
     return result.concat(data);
-  }
+  }*/
   console.log(result);
 
   return result;
@@ -72,7 +73,7 @@ const Favoritos = () => {
         response.map((row) => {
           console.log(row.fechahora);
           row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm:ss a"
+            "dddd, DD MMMM YYYY, h:mm a"
           );
           row.vs = "VS";
 

@@ -1,8 +1,8 @@
 <?php
 
 
-const token = '';
-const apiUrl = "http://soltechgroup.net:9696";
+const token = 'e366fedf18467d39a36e099fd5391ebab48b7c33';
+const apiUrl = "http://192.168.1.231";
 
 
 function CallAPI($method, $url, $data = false)

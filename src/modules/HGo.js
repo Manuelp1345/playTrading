@@ -12,17 +12,18 @@ const fetchFA = async (next) => {
 
   try {
     response = await axios.get(
-      `server/partidos.php?${next ? next.split("?")[1] : "q=GO"}`
+      //`server/partidos.php?${next ? next.split("?")[1] : "q=GO"}`
+      `server/partidos.php?q=GO`
     );
   } catch (error) {
     console.log(error);
   }
   let result = response.data.results;
-  if (response.data.next !== null) {
+  /*if (response.data.next !== null) {
     const data = await fetchFA(response.data.next);
     console.log(data);
     return result.concat(data);
-  }
+  }*/
   console.log(result);
 
   return result;
@@ -43,16 +44,22 @@ const HGO = () => {
       }
       const filterr = response.filter(
         (row) =>
-          moment().diff(moment(row.fechahora), "hours") > 12 &&
-          moment().diff(moment(row.fechahora), "day") === 0 &&
-          row.goles_local !== null
+          //  se discrimina las tuplas de consulta api solo a campo status
+          row.status !== false
+          // moment().diff(moment(row.fechahora), "hours") > 12 &&
+          // moment().diff(moment(row.fechahora), "day") === 0 &&
+          // row.goles_local !== null
       );
       setData1(
         filterr.map((row) => {
           row.fechahora = moment(`${row.fechahora}`).format(
-            "dddd, MMMM Do YYYY, h:mm a"
+            "dddd, DD MMMM YYYY"
           );
-          row.resultado = `${row.goles_local}-${row.goles_visitante}`;
+          if ((row.goles_local === null) || (row.goles_visitante === null)) {
+            row.resultado = ` Pendiente `;
+            } else {
+            row.resultado = `${row.goles_local}-${row.goles_visitante}`;
+          }
           row.vs = "VS";
           return row;
         })

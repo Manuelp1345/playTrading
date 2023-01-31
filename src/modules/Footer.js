@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { Instagram, Telegram, Twitter, YouTube } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
@@ -5,7 +6,7 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import CustomizedDialogs from "./ModalAuth";
-
+// eslint-disable-next-line
 const pagesFooter = [
   "INFORMACIÓN",
   "POLÍTICAS DE PRIVACIDAD",
